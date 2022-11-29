@@ -18,8 +18,8 @@ const Statistics = ({good, neutral, bad}) => {
         <StatisticLine text='neutral' value={neutral} />
         <StatisticLine text='bad' value={bad} />
         <StatisticLine text='all' value={total} />
-        <StatisticLine text='average' value={(good - bad) / total} />
-        <StatisticLine text='positive' value={(good / total) * 100 + '%'} />
+        <StatisticLine text='average' value={parseFloat(((good - bad) / total).toFixed(1))} />
+        <StatisticLine text='positive' value={parseFloat(((good / total) * 100).toFixed(1)) + '%'} />
       </tbody>
     </table>
   )
