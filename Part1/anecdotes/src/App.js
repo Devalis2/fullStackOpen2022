@@ -1,6 +1,11 @@
 import { useState } from 'react'
 
+// Button
+const Button = ({ handleClick, text}) => <button onClick={handleClick}>{text}</button>
+
+
 const App = () => {
+  // Anecdotes
   const anecdotes = [
     'If it hurts, do it more often.',
     'Adding manpower to a late software project makes it later!',
@@ -10,13 +15,14 @@ const App = () => {
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.'
   ]
-   
+  // State
   const [selected, setSelected] = useState(0)
 
   return (
-    <div>
-      {anecdotes[selected]}
-    </div>
+    <>
+      {anecdotes[selected]} <br />
+      <Button handleClick={() => setSelected(Math.floor(Math.random() * anecdotes.length) + 0)} text="next anecdote" />
+    </>
   )
 }
 
