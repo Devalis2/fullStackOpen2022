@@ -3,6 +3,35 @@ import { useState } from 'react'
 // Button
 const Button = ({ handleClick, text}) => <button onClick={handleClick}>{text}</button>
 
+// Anecdote of the day
+const Anecdote = ({anecdote, voteNumber}) => {
+  return (
+    <>
+      <h1>Anecdote of the day</h1>
+      {anecdote} <br />
+      has {voteNumber} votes <br />
+    </>
+  )
+}
+
+// Anecdote with the most votes
+const PopularAnecdote = ({anecdote, voteNumber}) => {
+  if (voteNumber === 0) {
+    return (
+      <>
+        <h1>Anecdote with most votes</h1>
+        No votes given.
+      </>
+    )
+  }
+  return (
+    <>
+      <h1>Anecdote with most votes</h1>
+      {anecdote} <br />
+      has {voteNumber} votes <br />
+    </>
+  )
+}
 
 const App = () => {
   // Anecdotes
@@ -15,13 +44,34 @@ const App = () => {
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.'
   ]
+
   // State
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0))
+  const mostPopular = votes.indexOf(Math.max(...votes));
+
+  // Random number
+  const nextAnecdote = () => {
+    let random =  Math.floor(Math.random() * anecdotes.length);
+    if (random == selected && random >= 0) random++;
+    if (random == selected && random == anecdotes.length) random--;
+    return setSelected(random);
+  }
+
+  // Votes
+  const vote = () => {
+    let copy = [...votes];
+    copy[selected] += 1;
+    setVotes(copy);
+  }
 
   return (
     <>
-      {anecdotes[selected]} <br />
-      <Button handleClick={() => setSelected(Math.floor(Math.random() * anecdotes.length) + 0)} text="next anecdote" />
+      <Anecdote anecdote={anecdotes[selected]} voteNumber={votes[selected]} />
+      <Button handleClick={vote} text="vote" />
+      <Button handleClick={nextAnecdote} text="next anecdote" />
+      <br />
+      <PopularAnecdote anecdote={anecdotes[mostPopular]} voteNumber={votes[mostPopular]} />
     </>
   )
 }
